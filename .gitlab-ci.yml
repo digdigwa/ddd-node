@@ -1,0 +1,76 @@
+#before_script:
+#  - npm install
+
+stages:
+  - offline
+  - online
+  - dp73
+  - dp74
+  - dp75
+  - box44
+  - box45
+#  - prod
+
+# 线下环境首次部署初始化
+offline:
+  stage: offline
+  only:
+  - offline
+  script:
+  - npm run offline-setup
+
+  # 生产环境首次部署初始化
+online:
+  stage: online
+  only:
+  - online
+  script:
+  - npm run online-setup
+
+# A环境
+dp73:
+  stage: dp73
+  only:
+  - dp73
+  script:
+  - pm2 deploy pm2.config.js test73
+
+# B环境
+dp74:
+  stage: dp74
+  only:
+  - dp74
+  script:
+  - pm2 deploy pm2.config.js test74
+
+# C环境
+dp75:
+  stage: dp75
+  only:
+  - dp75
+  script:
+  - pm2 deploy pm2.config.js test75
+
+# sandbox环境44
+box44:
+  stage: box44
+  only:
+  - box44
+  script:
+  - pm2 deploy pm2.config.js box44
+
+# sandbox环境45
+box45:
+  stage: box45
+  only:
+  - box45
+  script:
+  - pm2 deploy pm2.config.js box45
+
+# 生产环境
+#prod:
+#  stage: prod
+#  only:
+#  - master
+#  script:
+#  - pm2 deploy pm2.config.js prod

@@ -1,0 +1,43 @@
+{
+  "name": "node-ddd",
+  "version": "1.0.0",
+  "description": "哇哇哇",
+  "main": "index.js",
+  "scripts": {
+    "dev": "JZ_ENV=a node ./src/index.js",
+    "offline-setup": "source ~/.bash_profile && pm2 deploy pm2.config.js offline setup",
+    "online-setup": "source ~/.bash_profile && pm2 deploy pm2.config.js prod setup",
+    "rollback": "node bin/rollback.js"
+  },
+  "author": "YiYing",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "colors": "^1.4.0",
+    "crypto-js": "^4.0.0",
+    "ejs": "^2.6.1",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-mount": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.4",
+    "koa2-cors": "^2.0.6",
+    "log4js": "^3.0.6",
+    "moment": "^2.25.3",
+    "mysql2": "^2.0.1",
+    "qs": "^6.6.0",
+    "sequelize": "^5.22.3",
+    "shelljs": "^0.8.4",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "chokidar": "^2.0.4",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}
