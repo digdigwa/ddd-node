@@ -75,15 +75,8 @@ async function getNoPublishDocsByTeamId ({ ctx, uid }) {
     ctx.body = result({ data: docs })
 }
 
-// 获取所有周刊文章
-async function getDocsByWeeklyId ({ ctx, uid }) {
-    let docs = await dao.getDocsByWeeklyId(ctx.query.weeklyId)
-    ctx.body = result({ data: docs })
-}
-
 module.exports = {
     createDoc,
     getDocsForPage,
-    getNoPublishDocsByTeamId,
-    getDocsByWeeklyId
+    getNoPublishDocsByTeamId
 }

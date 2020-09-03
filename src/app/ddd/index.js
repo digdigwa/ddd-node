@@ -40,9 +40,10 @@ module.exports = {
         '/i/createDoc': { ctrl: docCtrl.createDoc, login: true },
         '/i/getNoPublishDocsByTeamId': { ctrl: docCtrl.getNoPublishDocsByTeamId, login: true },
         '/i/getDocsForPage': { ctrl: docCtrl.getDocsForPage }, // 首页使用不需要登录
-        '/i/getDocsByWeeklyId': { ctrl: docCtrl.getDocsByWeeklyId },
         // 周刊相关
         '/i/createWeekly': { ctrl: weeklyCtrl.createWeekly, login: true },
-        '/i/getWeeklyByTeamId': { ctrl: weeklyCtrl.getWeeklyByTeamId }
+        '/i/getWeeklyByTeamId': { ctrl: weeklyCtrl.getWeeklyByTeamId },
+        '/i/getDocsByWeeklyId': { ctrl: weeklyCtrl.getDocsByWeeklyId },
+        '/i/getWeeklyBaseInfoById': { ctrl: weeklyCtrl.getWeeklyBaseInfoById }
     }
 }
