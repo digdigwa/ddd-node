@@ -3,7 +3,7 @@ const dao = require('../dao/teamMemberDao')
 const userDao = require('../dao/loginDao')
 const { result } = require('./result')
 
-// 获取当前用户加入了哪些团队
+// 添加团队成员
 async function addTeamMember ({ ctx, uid }) {
     let { userName, teamId } = ctx.request.body
     if (!userName || !teamId) {

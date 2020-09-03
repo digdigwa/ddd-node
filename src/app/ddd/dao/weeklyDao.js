@@ -17,7 +17,13 @@ async function updateWeeklyField ({ weeklyId, teamId, transaction }) {
 
 // 通过团队ID查询发布的所有周刊
 async function getWeeklyByTeamId (teamId) {
-    const res = await Weekly.findAll({ where: { teamId } })
+    // const res = await Weekly.findAll({ where: { teamId } })
+    // 需要关联出用户中文名
+    const sql = 'SELECT w.weekly_id as weeklyId, w.weekly_title as weeklyTitle, w.cover_url as coverUrl, w.create_time as createTime, u.nick_name as nickName ' +
+                'FROM d_weekly w ' +
+                'LEFT JOIN d_user u ON u.user_id=w.create_user_id ' +
+                'WHERE team_id =?;'
+    const res = await sequelize.query(sql, { replacements: [teamId], type: QueryTypes.SELECT })
     return res || []
 }
 

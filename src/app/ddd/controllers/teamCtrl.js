@@ -38,7 +38,7 @@ async function modifyTeamInfo ({ ctx, uid }) {
     }
 }
 
-// 获取所有团队信息
+// 获取所有团队列表
 async function getAllTeams ({ ctx, uid }) {
     let teams = await dao.getAllTeams()
     ctx.body = result({ data: teams })
