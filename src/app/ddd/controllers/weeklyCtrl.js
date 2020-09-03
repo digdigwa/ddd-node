@@ -2,6 +2,7 @@ const { sequelize } = require('../../../config/db')
 const tools = require('../../../common/tools')
 const dao = require('../dao/weeklyDao')
 const docDao = require('../dao/docDao')
+const tagDao = require('../dao/tagDao')
 const { result } = require('./result')
 const { getLogger } = require('../../../common/log/log')
 const logger = getLogger()
@@ -48,7 +49,14 @@ async function getWeeklyByTeamId ({ ctx, uid }) {
 // 获取周刊下的所有文章
 async function getDocsByWeeklyId ({ ctx, uid }) {
     let docs = await docDao.getDocsByWeeklyId(ctx.query.weeklyId)
-    ctx.body = result({ data: docs })
+    let res = []
+    // 遍历获取对应的标签
+    for (let i = 0; i < docs.length; i++) {
+        const doc = docs[i]
+        let tags = await tagDao.getTagsByDocId(doc.docId)
+        res.push({ doc, tags })
+    }
+    ctx.body = result({ data: res })
 }
 
 // 获取周刊基本信息

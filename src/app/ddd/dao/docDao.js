@@ -18,6 +18,7 @@ async function createDoc (doc, options = {}) {
 async function getDocsForPage ({ pageSize, curPage }) {
     const sql = 'SELECT doc.source_url as sourceUrl, doc.doc_id as docId, doc.title,doc.reason,doc.create_time as createTime, u.nick_name as nickName FROM d_doc doc ' +
                 'LEFT JOIN d_user u ON doc.create_user_id=u.user_id ' +
+                'where doc.weekly_id is not null ' +
                 'ORDER BY doc.create_time DESC ' +
                 'LIMIT ?,?;'
     const docList = await sequelize.query(sql, { replacements: [(curPage - 1) * pageSize, pageSize], type: QueryTypes.SELECT })

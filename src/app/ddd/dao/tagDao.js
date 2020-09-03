@@ -1,3 +1,5 @@
+const { QueryTypes } = require('sequelize')
+const { sequelize } = require('../../../config/db')
 const { Tag } = require('../model')
 const { DocTag } = require('../model')
 
@@ -12,7 +14,17 @@ async function createDocTag (docTag, options = {}) {
     return res
 }
 
+// 获取文章的所有标签
+async function getTagsByDocId (docId) {
+    const sql = 'SELECT tag.tag_id as tagId, tag.tag_name as tagName FROM d_doc_tag dt ' +
+                'LEFT JOIN d_tag tag ON tag.tag_id=dt.tag_id ' +
+                'WHERE dt.doc_id=?;'
+    const tags = await sequelize.query(sql, { replacements: [docId], type: QueryTypes.SELECT })
+    return tags
+}
+
 module.exports = {
     getAllTags,
-    createDocTag
+    createDocTag,
+    getTagsByDocId
 }

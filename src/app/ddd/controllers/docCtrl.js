@@ -66,13 +66,28 @@ async function createDoc ({ ctx, uid }) {
 async function getDocsForPage ({ ctx, uid }) {
     let { curPage, pageSize } = ctx.request.body
     let docs = await dao.getDocsForPage({ curPage, pageSize })
-    ctx.body = result({ data: docs })
+    let res = []
+    // 遍历获取对应的标签
+    for (let i = 0; i < docs.length; i++) {
+        const doc = docs[i]
+        let tags = await tagDao.getTagsByDocId(doc.docId)
+        res.push({ doc, tags })
+    }
+
+    ctx.body = result({ data: res })
 }
 
 // 获取未发布的文章
 async function getNoPublishDocsByTeamId ({ ctx, uid }) {
     let docs = await dao.getNoPublishDocsByTeamId(ctx.query.teamId)
-    ctx.body = result({ data: docs })
+    let res = []
+    // 遍历获取对应的标签
+    for (let i = 0; i < docs.length; i++) {
+        const doc = docs[i]
+        let tags = await tagDao.getTagsByDocId(doc.docId)
+        res.push({ doc, tags })
+    }
+    ctx.body = result({ data: res })
 }
 
 module.exports = {
