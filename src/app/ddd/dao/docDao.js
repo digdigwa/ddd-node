@@ -55,11 +55,30 @@ async function getDocsByWeeklyId (weeklyId) {
     return docList || []
 }
 
+// 通过用户ID查询所有文档 - 个人中心-我的推荐
+async function getMyDocs ({ userId, pageSize, curPage }) {
+    const sql = 'SELECT doc.source_url as sourceUrl,doc.status, doc.doc_id as docId, doc.title,doc.reason,doc.create_time as createTime, u.nick_name as nickName FROM d_doc doc ' +
+                'LEFT JOIN d_user u ON doc.create_user_id=u.user_id ' +
+                'where doc.create_user_id=? ' +
+                'ORDER BY doc.create_time DESC ' +
+                'LIMIT ?,?;'
+    const docList = await sequelize.query(sql, { replacements: [userId, (curPage - 1) * pageSize, pageSize], type: QueryTypes.SELECT })
+    return docList || []
+}
+
+// 通过创建人ID删除文档
+async function delMyDocById ({ docId, createUserId, transaction }) {
+    let result = await Doc.destroy({ where: { docId, createUserId }, transaction })
+    return result
+}
+
 module.exports = {
     createWeekly,
     createDoc,
     getDocsForPage,
     getNoPublishDocsByTeamId,
     updateWeeklyField,
-    getDocsByWeeklyId
+    getDocsByWeeklyId,
+    getMyDocs,
+    delMyDocById
 }

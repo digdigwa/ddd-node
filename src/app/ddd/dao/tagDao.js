@@ -23,8 +23,15 @@ async function getTagsByDocId (docId) {
     return tags
 }
 
+// 通过docId删除文档与标签的关联关系
+async function delTagRelationByDocId ({ docId, transaction }) {
+    let result = await DocTag.destroy({ where: { docId }, transaction })
+    return result
+}
+
 module.exports = {
     getAllTags,
     createDocTag,
-    getTagsByDocId
+    getTagsByDocId,
+    delTagRelationByDocId
 }

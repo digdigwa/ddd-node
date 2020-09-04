@@ -99,8 +99,52 @@ async function getNoPublishDocsByTeamId ({ ctx, uid }) {
     ctx.body = result({ data: res })
 }
 
+// 获取所有我推荐的文档
+async function getMyDocs ({ ctx, uid }) {
+    let { curPage, pageSize } = ctx.request.body
+    let docs = await dao.getMyDocs({ curPage, pageSize, userId: uid })
+    let res = []
+    // 遍历获取对应的标签
+    for (let i = 0; i < docs.length; i++) {
+        const doc = docs[i]
+        let tags = await tagDao.getTagsByDocId(doc.docId)
+        res.push({ doc, tags })
+    }
+    ctx.body = result({ data: res })
+}
+
+// 删除个人推荐的文章
+async function delMyDocById ({ ctx, uid }) {
+    // 事务处理
+    let transaction
+    try {
+        transaction = await sequelize.transaction()
+        // 删除文章
+        await dao.delMyDocById({
+            createUserId: uid,
+            docId: ctx.query.docId,
+            transaction
+        })
+        // 删除文章对应的标签关联
+        await tagDao.delTagRelationByDocId({
+            docId: ctx.query.docId,
+            transaction
+        })
+
+        await transaction.commit()
+        ctx.body = result({ data: true })
+    } catch (error) {
+        logger.error(ctx, error)
+        // Rollback transaction only if the transaction object is defined
+        if (transaction) await transaction.rollback()
+        ctx.body = result({ message: '数据异常，删除失败', status: 500 })
+    }
+}
+
 module.exports = {
     createDoc,
     getDocsForPage,
-    getNoPublishDocsByTeamId
+    getNoPublishDocsByTeamId,
+    getMyDocs,
+    delMyDocById
 }
