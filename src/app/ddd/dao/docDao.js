@@ -1,4 +1,4 @@
-const { QueryTypes } = require('sequelize')
+const { QueryTypes, Op } = require('sequelize')
 const { sequelize } = require('../../../config/db')
 const { Doc, Weekly } = require('../model')
 
@@ -72,6 +72,19 @@ async function delMyDocById ({ docId, createUserId, transaction }) {
     return result
 }
 
+// 按文章title模糊查找
+async function docSearch ({ title, pageSize, curPage }) {
+    let result = await Doc.findAll({
+        where: {
+            title: { [Op.like]: `%${title}%` },
+            status: 1
+        },
+        offset: (curPage - 1) * pageSize,
+        limit: pageSize
+    })
+    return result || []
+}
+
 module.exports = {
     createWeekly,
     createDoc,
@@ -80,5 +93,6 @@ module.exports = {
     updateWeeklyField,
     getDocsByWeeklyId,
     getMyDocs,
-    delMyDocById
+    delMyDocById,
+    docSearch
 }

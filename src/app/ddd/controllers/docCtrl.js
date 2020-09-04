@@ -141,10 +141,25 @@ async function delMyDocById ({ ctx, uid }) {
     }
 }
 
+// 根据title模糊查找文章
+async function docSearch ({ ctx, uid }) {
+    let { title, pageSize, curPage } = ctx.request.body
+    let docs = await dao.docSearch({ title, pageSize, curPage })
+    let res = []
+    // 遍历获取对应的标签
+    for (let i = 0; i < docs.length; i++) {
+        const doc = docs[i]
+        let tags = await tagDao.getTagsByDocId(doc.docId)
+        res.push({ doc, tags })
+    }
+    ctx.body = result({ data: res })
+}
+
 module.exports = {
     createDoc,
     getDocsForPage,
     getNoPublishDocsByTeamId,
     getMyDocs,
-    delMyDocById
+    delMyDocById,
+    docSearch
 }

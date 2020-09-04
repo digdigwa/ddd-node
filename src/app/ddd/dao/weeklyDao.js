@@ -1,6 +1,5 @@
-const { QueryTypes } = require('sequelize')
+const { QueryTypes, Op } = require('sequelize')
 const { sequelize } = require('../../../config/db')
-const { Op } = require('sequelize')
 const { Doc, Weekly } = require('../model')
 
 // 周刊创建

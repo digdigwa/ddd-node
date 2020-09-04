@@ -42,6 +42,7 @@ module.exports = {
         '/i/getDocsForPage': { ctrl: docCtrl.getDocsForPage }, // 首页使用不需要登录
         '/i/getMyDocs': { ctrl: docCtrl.getMyDocs, login: true },
         '/i/delMyDocById': { ctrl: docCtrl.delMyDocById, login: true },
+        '/i/docSearch': { ctrl: docCtrl.docSearch },
         // 周刊相关
         '/i/createWeekly': { ctrl: weeklyCtrl.createWeekly, login: true },
         '/i/getWeeklyByTeamId': { ctrl: weeklyCtrl.getWeeklyByTeamId },
