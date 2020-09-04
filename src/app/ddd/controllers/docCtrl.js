@@ -19,6 +19,11 @@ async function createDoc ({ ctx, uid }) {
         reason: data.reason,
         createUserId: uid
     }
+    // 如果未关联团队，则直接发布
+    if (!data.teamId) {
+        doc.status = 1
+    }
+    // 事务处理
     let transaction
     try {
         // get transaction
@@ -38,7 +43,7 @@ async function createDoc ({ ctx, uid }) {
             let tag = tags[i]
             // 判断标签是否存在，没有则创建
             let tagId = tools.getUUID()
-            await Tag.findOrCreate({
+            let [curTag, status] = await Tag.findOrCreate({
                 where: { tagName: tag },
                 defaults: {
                     tagId,
@@ -47,6 +52,10 @@ async function createDoc ({ ctx, uid }) {
                 },
                 transaction
             })
+            // 已存在则使用之前的ID
+            if (!status) {
+                tagId = curTag.tagId
+            }
             // 新增文章与标签的关联关系
             await tagDao.createDocTag({ tagId, docId: docObj.docId }, { transaction })
         }

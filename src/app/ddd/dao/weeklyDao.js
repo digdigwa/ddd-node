@@ -11,7 +11,7 @@ async function createWeekly (doc, options = {}) {
 
 // 更新weeklyId字段, 周刊发布时使用
 async function updateWeeklyField ({ weeklyId, teamId, transaction }) {
-    let res = await Doc.update({ weeklyId }, { where: { teamId, weeklyId: { [Op.is]: null } }, transaction })
+    let res = await Doc.update({ weeklyId, status: 1 }, { where: { teamId, weeklyId: { [Op.is]: null } }, transaction })
     return res
 }
 

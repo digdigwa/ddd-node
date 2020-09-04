@@ -31,6 +31,9 @@ Server.init({
         field: 'weekly_id',
         type: Sequelize.STRING
     },
+    status: {
+        type: Sequelize.INTEGER
+    },
     createUserId: {
         field: 'create_user_id',
         type: Sequelize.STRING,
