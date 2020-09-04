@@ -33,7 +33,9 @@ module.exports = {
         app.use(async function (ctx, next) {
             // 请求开始
             const start =  Date.now()
-            const cookied = ctx.cookies.get('d_id') // 客户端用户指纹
+            const headers = ctx.headers
+            // const cookied = ctx.cookies.get('d_id') // 客户端用户指纹
+            const cookied = headers['d-id'] // 客户端用户指纹
             // 上下文挂载 traceId: 用户指纹 + 开始时间 + 随机数（防止同一时间的用户的两个请求
             ctx.feTraceid = `${cookied || 'anonymous'}-${start}-${Math.round(Math.random() * 10000)}`
             logger.info(ctx, `【HTTP入口-start】 ${ctx.method} ${ctx.href},UA:${ctx.request.header['user-agent']}},ip: ${ctx.ip}, refer:${ctx.request.get('referer')}`)
