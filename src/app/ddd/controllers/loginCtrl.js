@@ -44,6 +44,8 @@ async function createUser ({ ctx, url }) {
         userName, nickName, email
     }
     user.userId = tools.getUUID()
+    // 头像默认使用userId
+    user.avatar = user.userId
     user.salt = tools.getUUID()
     // 密码sha256加密
     let passwordSign = crypto.generatePassword(user.salt, password)
@@ -71,7 +73,7 @@ async function login ({ ctx, url }) {
             // ctx.cookies.set('d_token', token, { domain: domain })
             // ctx.cookies.set('d_id', user.userId, { domain: domain, httpOnly: false })
             // 无法跨域设置cookie，修改为前端设置
-            ctx.body = result({ data: { token: token, id: user.userId } })
+            ctx.body = result({ data: { token: token, id: user.userId, avatar: user.avatar, lastLoginTime: user.lastLoginTime } })
             // 更新最后登录时间
             user.lastLoginTime = new Date()
             user.save()

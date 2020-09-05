@@ -19,8 +19,12 @@ async function getUserInfo ({ ctx, uid }) {
 
 // 用户信息修改
 async function modifyUserInfo ({ ctx, uid }) {
-    let { nickName, password } = ctx.request.body
+    let { avatar, nickName, password } = ctx.request.body
     let user = await dao.getUserByUserId(uid)
+    // 头像修改
+    if (avatar && avatar !== user.avatar) {
+        user.avatar = avatar
+    }
     // 昵称修改
     if (nickName !== user.nickName) {
         user.nickName = nickName
