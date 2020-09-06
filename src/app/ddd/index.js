@@ -36,6 +36,8 @@ module.exports = {
         '/i/deleteMember': { ctrl: teamMemberCtrl.deleteMember, login: true },
         // 标签相关
         '/i/getAllTags': { ctrl: tagCtrl.getAllTags, login: true },
+        '/i/getAllTagsAndCount': { ctrl: tagCtrl.getAllTagsAndCount },
+        '/i/getDocsByTagId': { ctrl: tagCtrl.getDocsByTagId },
         // 文章相关
         '/i/createDoc': { ctrl: docCtrl.createDoc, login: true },
         '/i/getNoPublishDocsByTeamId': { ctrl: docCtrl.getNoPublishDocsByTeamId, login: true },
