@@ -45,7 +45,7 @@ Server.init({
         field: 'last_login_time',
         type: Sequelize.DATE
     },
-    lastModigyTime: {
+    lastModifyTime: {
         field: 'last_modify_time',
         type: Sequelize.DATE
     },
@@ -60,7 +60,7 @@ Server.init({
     // timestamps: false,  // 去除createAt updateAt
     // 将updatedAt对应到数据库的updated_at字段
     createdAt: 'createTime',
-    updatedAt: 'lastModigyTime'
+    updatedAt: 'lastModifyTime'
 })
 
 module.exports = Server

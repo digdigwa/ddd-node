@@ -11,6 +11,7 @@ const middlewares = require('./middlewares/index')
 const register    = require('./common/register')
 const tools       = require('./common/tools')
 const { logger, loggerMiddlewares, toggleLog } = require('./common/log/traceLog')
+
 // 须放到业务代码之前初始化，避免业务代码中使用到logger未被默认初始化
 loggerMiddlewares(app)
 
